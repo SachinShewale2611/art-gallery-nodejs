@@ -10,15 +10,13 @@ const dotenv = require('dotenv');
 
 dotenv.config({ path: './config.env' });
 
-// Create an instance of the Express server
-const app = express();
+//import app.js
+const app = require('./app');
 
-// Define a route
-app.get('/', (req, res) => {
-  res.send('Hello, World!');
-});
+
 
 // Start the server
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
+const port = process.env.PORT || 3000;
+const server = app.listen(port, () => {
+  console.log(`App running on port ${port}...`);
 });

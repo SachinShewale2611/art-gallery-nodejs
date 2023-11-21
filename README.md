@@ -23,7 +23,11 @@ npm install express-rate-limit
 Install helmet - Secure app by setting HTTP response headers
 npm install helmet
 
-Install express-mongo-sanitize
+Install express-mongo-sanitize - Data sanitization against NoSQL query injection
 npm i express-mongo-sanitize
 
 Install xss - Filter input from users to prevent XSS attacks
+npm i xss
+
+Install hpp - Prevent parameter pollution
+npm i hpp
