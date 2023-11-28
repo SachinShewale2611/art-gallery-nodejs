@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node server.js",
+    "start:dev": "nodemon server.js",
   },
   "author": "sachin",
   "license": "ISC",
@@ -27,5 +28,8 @@
     "nodemon": "^3.0.1",
     "validator": "^13.11.0",
     "xss": "^1.0.14"
+  },
+  "devDependencies": {
+    "parcel": "^2.10.3"
   }
 }
