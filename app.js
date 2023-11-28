@@ -6,13 +6,15 @@ const helmet = require("helmet");
 const mongoSanitize = require("express-mongo-sanitize");
 const hpp = require("hpp");
 const { xss } = require("express-xss-sanitizer");
+const compression = require("compression");
 
 const userRouter = require("./routes/userRoutes");
 const globalErrorHandler = require("./controllers/errorController");
 
 const app = express();
 
-// 1) GLOBAL MIDDLEWARES
+// GLOBAL MIDDLEWARES
+
 // Serving static files
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -24,16 +26,15 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
-app.set('trust proxy', 1); // Trust the first hop of the proxy
+app.set("trust proxy", 1); // Trust the first hop of the proxy
 
 // Limit requests from same API
 const limiter = rateLimit({
-	windowMs: 15 * 60 * 1000, // 15 minutes
-	limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
-	headers: true, // Send custom rate limit header with limit and remaining
-})
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+  headers: true, // Send custom rate limit header with limit and remaining
+});
 app.use(limiter);
-
 
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: "10kb" }));
@@ -47,6 +48,9 @@ app.use(xss());
 
 // Prevent parameter pollution
 app.use(hpp());
+
+// Compress all responses
+app.use(compression());
 
 // Define a route
 app.get("/", (req, res) => {
