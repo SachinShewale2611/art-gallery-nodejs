@@ -9,6 +9,7 @@ const { xss } = require("express-xss-sanitizer");
 const compression = require("compression");
 
 const userRouter = require("./routes/userRoutes");
+const artworkRouter = require("./routes/artworkRoutes");
 const globalErrorHandler = require("./controllers/errorController");
 
 const app = express();
@@ -56,7 +57,9 @@ app.use(compression());
 app.get("/", (req, res) => {
   res.send("Hello, World!");
 });
+// Mount routers
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/artworks", artworkRouter);
 
 // Handle unhandled routes
 app.all("*", (req, res, next) => {
