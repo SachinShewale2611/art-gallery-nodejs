@@ -3,7 +3,10 @@ const AppError = require("../utils/appError");
 const Artwork = require("../models/artworkModel");
 
 const getAllArtworks = catchAsync(async (req, res) => {
-  const artworks = await Artwork.find({ isDeleted: { $ne: true } });
+  let filter = { isDeleted: { $ne: true } };
+  if (req.params.userId) filter.owner = req.params.userId;
+
+  const artworks = await Artwork.find(filter);
   res.status(200).json({
     status: "success",
     results: artworks?.length,
