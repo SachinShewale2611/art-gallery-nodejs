@@ -32,9 +32,11 @@ app.set("trust proxy", 1); // Trust the first hop of the proxy
 // Limit requests from same API
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
-  headers: true, // Send custom rate limit header with limit and remaining
+  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
+
 app.use(limiter);
 
 // Body parser, reading data from body into req.body
