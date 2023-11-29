@@ -35,9 +35,9 @@ exports.signup = catchAsync(async (req, res, next) => {
     passwordConfirm: req.body.passwordConfirm,
   });
 
-    const url = `${req.protocol}://${req.get("host")}/me`;
-    console.log(url);
-    await new Email(newUser, url).sendWelcome();
+  const url = `${req.protocol}://${req.get("host")}/me`;
+  console.log(url);
+  await new Email(newUser, url).sendWelcome();
 
   createSendToken(newUser, 201, res);
 });
@@ -71,7 +71,6 @@ exports.protect = catchAsync(async (req, res, next) => {
   } else if (req.cookies?.jwt) {
     token = req.cookies.jwt;
   }
-
   if (!token) {
     return next(
       new AppError("You are not logged in! Please log in to get access.", 401)
@@ -165,3 +164,11 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   // 4) Log the user in, send JWT
   createSendToken(user, 200, res);
 });
+
+exports.logout = (req, res) => {
+  res.cookie("jwt", "loggedout", {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true,
+  });
+  res.status(200).json({ status: "success" });
+};
