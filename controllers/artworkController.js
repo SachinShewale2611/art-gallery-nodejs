@@ -1,12 +1,18 @@
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const Artwork = require("../models/artworkModel");
+const APIFeatures = require("../utils/apiFeatures");
+const { validationResult } = require("express-validator");
 
 const getAllArtworks = catchAsync(async (req, res) => {
   let filter = { isDeleted: { $ne: true } };
   if (req.params.userId) filter.owner = req.params.userId;
+  const features = new APIFeatures(Artwork.find(filter), req.query)
+    .paginate()
+    .sort();
 
-  const artworks = await Artwork.find(filter);
+  const artworks = await features.query;
+
   res.status(200).json({
     status: "success",
     results: artworks?.length,
@@ -29,9 +35,27 @@ const getArtworkById = catchAsync(async (req, res, next) => {
   });
 });
 
-const createArtwork = catchAsync(async (req, res) => {
+const createArtwork = catchAsync(async (req, res, next) => {
   const owner = req.user._id;
-  const artwork = await Artwork.create({ ...req.body, owner });
+  //validate body
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      status: "fail",
+      errors: errors.array(),
+      
+    });
+  }
+  //end of validation
+  const { title, description, photoUrls, price } = req.body;
+
+  const artwork = await Artwork.create({
+    title,
+    description,
+    photoUrls,
+    price,
+    owner,
+  });
   res.status(201).json({
     status: "success",
     data: {

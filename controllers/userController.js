@@ -1,8 +1,12 @@
 const User = require("../models/userModel");
 const catchAsync = require("../utils/catchAsync");
+const APIFeatures = require("../utils/apiFeatures");
 
 exports.getAllUsers = catchAsync(async (req, res) => {
-  const users = await User.find();
+  const features = new APIFeatures(User.find(), req.query)
+    .paginate();
+
+  const users = await features.query;
 
   res.status(200).json({
     status: "success",
