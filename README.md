@@ -4,7 +4,7 @@
 
 This Art Gallery project is a Node.js application that allows users to manage artworks and handle user authentication. It provides a variety of features for both users and artworks.
 
-Node- Initially requests can delay by 50 seconds or more.
+Note- Initially requests can be delayed by 50 seconds or more.
 
 ## API Documentation
 
@@ -42,7 +42,7 @@ Explore the API endpoints using Swagger UI:
 - `POST /login` - User login
 - `GET /logout` - User logout
 - `POST /forgotPassword` - Request password reset
-- `PATCH /resetPassword/:token` - Reset password with token
+- `PATCH /resetPassword/:token` - Reset password with a token
 
 ### Artwork Routes
 - `GET /` - Get all artworks
