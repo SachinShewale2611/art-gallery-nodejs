@@ -4,6 +4,14 @@
 
 This Art Gallery project is a Node.js application that allows users to manage artworks and handle user authentication. It provides a variety of features for both users and artworks.
 
+Node- Initially requests can delay by 50 seconds or more.
+
+## API Documentation
+
+Explore the API endpoints using Swagger UI:
+
+- **Swagger API Docs**: [Art Gallery API Documentation](https://auth-service-o4cw.onrender.com/api-docs/)
+
 ## Features
 
 ### Authentication
