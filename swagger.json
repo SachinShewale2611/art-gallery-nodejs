@@ -5,7 +5,7 @@
       "title": "Art Gallery API",
       "description": "API documentation for the Art Gallery application."
     },
-    "host": "improved-journey-6q46jj676v42rgxq-3000.app.github.dev",
+    "host": "auth-service-o4cw.onrender.com",
     "basePath": "/api/v1",
     "schemes": [
       "https"
