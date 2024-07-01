@@ -1,0 +1,483 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Art Gallery API",
+      "description": "API documentation for the Art Gallery application."
+    },
+    "host": "improved-journey-6q46jj676v42rgxq-3000.app.github.dev",
+    "basePath": "/api/v1",
+    "schemes": [
+      "https"
+    ],
+    "securityDefinitions": {
+      "Bearer": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header",
+        "description": "Enter your bearer token in the format **Bearer &lt;token&gt;**"
+      }
+    },
+    "security": [
+      {
+        "Bearer": []
+      }
+    ],
+    "paths": {
+      "/artworks": {
+        "get": {
+          "summary": "Get all artworks",
+          "description": "Retrieve a list of all artworks.",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "required": false,
+              "type": "integer",
+              "description": "Page number for pagination"
+            },
+            {
+              "name": "limit",
+              "in": "query",
+              "required": false,
+              "type": "integer",
+              "description": "Number of artworks per page"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A list of artworks.",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Artwork"
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Create a new artwork",
+          "description": "Create a new artwork.",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/NewArtwork"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Artwork created successfully.",
+              "schema": {
+                "$ref": "#/definitions/Artwork"
+              }
+            }
+          }
+        }
+      },
+      "/artworks/{id}": {
+        "get": {
+          "summary": "Get artwork by ID",
+          "description": "Retrieve a specific artwork by its ID.",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "The ID of the artwork to retrieve."
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A single artwork.",
+              "schema": {
+                "$ref": "#/definitions/Artwork"
+              }
+            },
+            "404": {
+              "description": "Artwork not found."
+            }
+          }
+        },
+        "patch": {
+          "summary": "Update artwork",
+          "description": "Update an existing artwork.",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "The ID of the artwork to update."
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/NewArtwork"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Artwork updated successfully.",
+              "schema": {
+                "$ref": "#/definitions/Artwork"
+              }
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete artwork",
+          "description": "Delete an existing artwork.",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "The ID of the artwork to delete."
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Artwork deleted successfully."
+            },
+            "404": {
+              "description": "Artwork not found."
+            }
+          }
+        }
+      },
+      "/users/login": {
+        "post": {
+          "summary": "Login",
+          "description": "Login a user.",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Login"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User logged in successfully.",
+              "schema": {
+                "$ref": "#/definitions/AuthResponse"
+              }
+            }
+          }
+        }
+      },
+      "/users/signup": {
+        "post": {
+          "summary": "Sign up",
+          "description": "Register a new user.",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/SignUp"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "User registered successfully.",
+              "schema": {
+                "$ref": "#/definitions/AuthResponse"
+              }
+            }
+          }
+        }
+      },
+      "/users/forgotPassword": {
+        "post": {
+          "summary": "Forgot Password",
+          "description": "Send a password reset link to the user's email.",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/ForgotPassword"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Password reset link sent."
+            }
+          }
+        }
+      },
+      "/users/resetPassword/{token}": {
+        "patch": {
+          "summary": "Reset Password",
+          "description": "Reset the user's password.",
+          "parameters": [
+            {
+              "name": "token",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "Password reset token"
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/ResetPassword"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Password reset successfully."
+            }
+          }
+        }
+      },
+      "/users/logout": {
+        "get": {
+          "summary": "Logout",
+          "description": "Logout a user.",
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": "Bearer token for authorization"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User logged out successfully."
+            }
+          }
+        }
+      },
+      "/users/{id}/artworks": {
+        "get": {
+          "summary": "Get artworks by user",
+          "description": "Retrieve all artworks created by a specific user.",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": "The ID of the user."
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A list of artworks.",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Artwork"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users": {
+        "get": {
+          "summary": "Get all users",
+          "description": "Retrieve a list of all users.",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "required": false,
+              "type": "integer",
+              "description": "Page number for pagination"
+            },
+            {
+              "name": "limit",
+              "in": "query",
+              "required": false,
+              "type": "integer",
+              "description": "Number of users per page"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A list of users.",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "Artwork": {
+        "type": "object",
+        "required": ["title", "description", "photoUrls", "price", "discount"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "6566d29dfb2765c9ede68a15"
+          },
+          "title": {
+            "type": "string",
+            "example": "Expressive contemporary artwork"
+          },
+          "description": {
+            "type": "string",
+            "example": "Expressive contemporary artwork that sparks thought and emotion."
+          },
+          "photoUrls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": ["https://example.com/contemporary-art.jpg"]
+          },
+          "price": {
+            "type": "integer",
+            "example": 700
+          },
+          "discount": {
+            "type": "integer",
+            "example": -1
+          }
+        }
+      },
+      "NewArtwork": {
+        "type": "object",
+        "required": ["title", "description", "photoUrls", "price", "discount"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Expressive contemporary artwork"
+          },
+          "description": {
+            "type": "string",
+            "example": "Expressive contemporary artwork that sparks thought and emotion."
+          },
+          "photoUrls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": ["https://example.com/contemporary-art.jpg"]
+          },
+          "price": {
+            "type": "integer",
+            "example": 700
+          },
+          "discount": {
+            "type": "integer",
+            "example": -1
+          }
+        }
+      },
+      "Login": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "sam@test.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "pass1234"
+          }
+        }
+      },
+      "SignUp": {
+        "type": "object",
+        "required": ["name", "email", "password"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "sam"
+          },
+          "email": {
+            "type": "string",
+            "example": "sam@test.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "pass1234"
+          }
+        }
+      },
+      "ForgotPassword": {
+        "type": "object",
+        "required": ["email"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "john@example.com"
+          }
+        }
+      },
+      "ResetPassword": {
+        "type": "object",
+        "required": ["password", "passwordConfirm"],
+        "properties": {
+          "password": {
+            "type": "string",
+            "example": "pass1234"
+          },
+          "passwordConfirm": {
+            "type": "string",
+            "example": "pass1234"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "required": ["name", "email"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "655d87b25a70ddf7df8b9d1f"
+          },
+          "name": {
+            "type": "string",
+            "example": "john"
+          },
+          "email": {
+            "type": "string",
+            "example": "john@example.com"
+          }
+        }
+      },
+      "AuthResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          }
+        }
+      }
+    }
+  }
+  

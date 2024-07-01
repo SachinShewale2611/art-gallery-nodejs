@@ -12,6 +12,11 @@ const userRouter = require("./routes/userRoutes");
 const artworkRouter = require("./routes/artworkRoutes");
 const globalErrorHandler = require("./controllers/errorController");
 
+//swagger
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+
+
 const app = express();
 
 // GLOBAL MIDDLEWARES
@@ -59,6 +64,7 @@ app.use(compression());
 app.get("/", (req, res) => {
   res.send("Hello, World!");
 });
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // Mount routers
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/artworks", artworkRouter);
@@ -72,5 +78,7 @@ app.all("*", (req, res, next) => {
 });
 
 app.use(globalErrorHandler);
+
+//swagger documentation
 
 module.exports = app;
