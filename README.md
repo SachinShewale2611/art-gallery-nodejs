@@ -4,7 +4,7 @@
 
 This Art Gallery project is a Node.js application that allows users to manage artworks and handle user authentication. It provides a variety of features for both users and artworks.
 
-Node- Initially requests can delay by 50 seconds or more.
+Node- Initially requests can be delayed by 50 seconds or more.
 
 ## API Documentation
 
