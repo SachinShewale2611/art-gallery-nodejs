@@ -25,6 +25,10 @@ This Art Gallery project is a Node.js application that allows users to manage ar
 
 ## Routes
 
+### Base Routes
+- `/api/v1/users` - User routes
+- `/api/v1/artworks` Artwork routes
+
 ### Authentication Routes
 - `POST /signup` - User signup
 - `POST /login` - User login
