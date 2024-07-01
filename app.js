@@ -62,7 +62,7 @@ app.use(compression());
 
 // Define a route
 app.get("/", (req, res) => {
-  res.send("Hello, World!");
+  res.send("<a href='/api-docs'><h1>API Documentation</h1></a>");
 });
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // Mount routers
